@@ -8,6 +8,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, "..", "public")));
 
 // Servidor para rotas usando expreess.
+// Server for routes using express.
 const serverHttp = http.createServer(app);
 
 // Cria o servidor com Socket.

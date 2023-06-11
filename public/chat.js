@@ -11,28 +11,23 @@ const category  = urlSearch.get("select_category");
 // on   => listen to some information
 
 const usernameDiv = document.getElementById("username");
-usernameDiv.innerHTML = `Olá ${category} ${username} - Você está na sala ${room}` ;
+usernameDiv.innerHTML = `Hello ${category} ${username} - You are in the room ${room}.` ;
 
 socket.emit("select_room", {
   username,
   room,
   category,
 }, messages => {
-  //console.log(messages);
   messages.forEach((message) => createMessage(message));
 });
 
 document.getElementById("button_send").addEventListener
 ("click", (event) => {
-  //const message      = document.getElementById("message_input").value;
   const registration = document.getElementById("registration_input").value;
   const summary      = document.getElementById("summary_input").value;
 
-  //console.log('Dados: ' + message + registration + summary);
-
   const data = {
     room,
-    //message,
     registration,
     summary,
     username,
@@ -42,17 +37,14 @@ document.getElementById("button_send").addEventListener
 });
 
 socket.on("message", data => {
-  console.log('Ouviu para fazer o HTML' + data);
   createMessage(data);
 });
 
 function createMessage(data) {
   const messageDiv = document.getElementById("messages");
 
-  console.log('primeiro if : ' +category.toLowerCase() + ' é igual a ' +'teacher');
-  console.log('segundo if : ' +data.username.toLowerCase + ' é igual a ' + username);
-
   // Se for professor exibe todas as mensagens.
+  // If you are a teacher, display all messages.
   if (category.toLowerCase() === 'teacher') {
     messageDiv.innerHTML += `
     <div class="new_message">
@@ -62,6 +54,9 @@ function createMessage(data) {
     </div>
     `;
   }
+
+  // Se não, só exibe para o próprio usuário.
+  // If not, it only displays for the user.
   else if (data.username.toLowerCase() === username.toLowerCase()) {
     messageDiv.innerHTML += `
     <div class="new_message">

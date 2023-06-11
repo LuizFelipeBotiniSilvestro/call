@@ -11,7 +11,6 @@ interface RoomUser {
 
 interface Message {
   room          : string,
-  //name          : string,
   registration  : string,
   summary       : string,
   category      : string,
@@ -23,10 +22,12 @@ const users: RoomUser[] = [];
 
 const messages: Message[] = [];
 
-// Permitir que cliente conecte com aplicação
+// Permitir que cliente conecte com aplicação.
+// Allows the client to connect to the application.
 io.on("connection", socket => { // Gera conexão entre cliente/servidor
   
   // Vai ficar escutando o evento que está sendo gerado (emit) no chat.js
+  // It will listen to the event being generated (emit) in chat.js.
   socket.on("select_room", (data, callback) => {
     
     // User logged in room.
@@ -37,6 +38,7 @@ io.on("connection", socket => { // Gera conexão entre cliente/servidor
     const userInRoom = users.find(user => user.username === data.username && user.room === data.room);
 
     // Mantém o usuário e muda o socket id.
+    // Keep the user and change the socket id.
     if (userInRoom) {
       userInRoom.socket_id = socket.id;
     } else {
@@ -53,11 +55,11 @@ io.on("connection", socket => { // Gera conexão entre cliente/servidor
 
 
     // Ouvindo
+    // Listening
     socket.on("message", (data) => {
       // Save all messages 
       const message: Message = {
         room          : data.room,
-        //name          : data.message,
         registration  : data.registration,
         summary       : data.summary,
         category      : data.category,
@@ -72,7 +74,7 @@ io.on("connection", socket => { // Gera conexão entre cliente/servidor
 
     });
 
-    console.log(users);
+    //console.log(users);
   });
 });
 
