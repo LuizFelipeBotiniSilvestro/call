@@ -13,6 +13,18 @@ const category  = urlSearch.get("select_category");
 const usernameDiv = document.getElementById("username");
 usernameDiv.innerHTML = `Hello ${category} ${username} - You are in the room ${room}.` ;
 
+
+//If as a teacher, do not need the registration and class summary fields.
+if (category.toLowerCase() === 'teacher'){
+  const msgRegistrationDiv = document.getElementById("registration_input");
+  const msgBriefDiv        = document.getElementById("summary_input");
+  const sendBtn            = document.getElementById("button_send");
+
+  msgRegistrationDiv.style.display = "none";
+  msgBriefDiv.style.display = "none";
+  sendBtn.style.display = "none";
+};
+
 socket.emit("select_room", {
   username,
   room,
